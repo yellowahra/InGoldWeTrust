@@ -1,0 +1,78 @@
+use cases: initial server select,load alg, run alg, search, help, change server, check top 10 (highest price, lowest price), check if item is broken.
+admin: turn off, turn on.
+Expanded Use Case: Check if broken
+precondition: Database is done pulling data from WOW servers
+Actor: System          System: Database
+						(0)DB is waiting
+(1) System queries entire DB      (2)DB sends back item ID, buy price, sell price of each item
+(3) System compares sell price to buy price
+	(3a) if item is broken it is added to a list
+	(3b) if item is not broken it is passed up.
+
+Expanded Use Case: check top 10
+precondition: At home screen
+Actor: User          System: System
+						(0) System displays home GUI
+(1) User clicks on		(2) System creates a list of the 10
+	a. top 10				a. sold for most
+	b. lowest 10			b. sold for least
+	c. most sold			c. most sold
+(3) User navigates list
+
+Expanded Use Case: Search
+precondition: User is on the search screen
+Actor: User          System: System
+					(0) System displays a search box
+(1) User enters an item's name into search box and click search	(2) System queries DB for full and partial match names 
+																	then adds them to list
+(3) User navigates list.
+
+Expanded Use Case: Help
+precondition: User clicks help
+Actor: User          System: System
+					(0) system displays help page gui
+(1) User clicks any of the 4 section names on gui   (2) page shows text explaining key features of section
+(3) User reads text.
+
+Expanded Use Case: Load Algorithm
+precondition: user clicked on algorithm tab
+Actor: User          System: System
+					(0) System displays algorithm GUI
+(1) User types in the item they want to search for and clicks search (2) System pulls up all full and partial matching
+																		items into a list
+(3) User click on desired item										(4) System pulls up graph of short history of
+																		item's price
+(5) User clicks on desired algorithm								(6) System applies algorithm to item's price history
+																		then redisplays graph
+(7) User reads graph
+
+Expanded Use Case: Personal Algorithm
+precondition: user clicked on algorithm tab
+Actor: User          System: System
+					(0) System displays algorithm GUI
+(1) User types in the item they want to search for and clicks search (2) System pulls up all full and partial matching
+																		items into a list
+(3) User click on desired item										(4) System pulls up graph of short history of
+																		item's price
+(5) User types in personal algorithm								(6) System applies algorithm to item's price history
+																		then redisplays graph
+(7) User reads graph
+
+Expanded Use Case: Personal Algorithm
+
+Actor: User          System: System
+					(0) System is at any section tab GUI
+(1) User clicks on the change server button   (2)System opens a window that displays list of possible servers
+(3) User clicks on desired server (4) System changes over to that server's DB and closes change server window
+(4) User continues normal activity
+
+
+functional requirements:
+1. The System may create a database of world of warcraft items that contains the values of sell price, buy price, # sold, and item ID
+2. The User may see if any broken items exist, items which sell for more than it costs to buy.
+3. The User may select a server to view the statistics of the items of that server.
+4. The User may Load and Run pre-made algorithms from the website.
+5. The User may Input and Run personal algorithms.
+6. The User may see the top 10 (highest, lowest, most sold) items on the server.
+7. The User may search for items and see a short history of item's price.
+8. The User may consult a help guide for quick answers.
