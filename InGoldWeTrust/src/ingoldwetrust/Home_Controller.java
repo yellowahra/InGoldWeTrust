@@ -67,27 +67,18 @@ public class Home_Controller {
             int r = 0;
             while(rs.next() && rs1.next()) {
                 int item_id = rs.getInt("itemid");
+                item_name = "Newer WoW Item";
                 
-                 try {
+                try {
                     Document doc = Jsoup.connect("http://www.wowhead.com/item=" + item_id).get();
-                    Elements info = doc.select("div#ic" + item_id);
-                      System.out.println(info);
+                    for (Element m : doc.getElementsByTag("meta")) {
+                        if ("og:title".equals(m.attr("property")))
+                            item_name = m.attr("content");
+                    }
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 } 
-                
-                String splitBy = ",";
-                BufferedReader br = new BufferedReader(new FileReader("Items.csv"));
-                String line;
-                item_name = "Newer WoW Item";
-                
-                while((line = br.readLine()) != null){
-                    String[] itemDetails = line.split(splitBy);
-                    if (itemDetails[0].equalsIgnoreCase(Integer.toString(item_id)))
-                        item_name = itemDetails[4];
-                }
-                br.close();
                 
                 int diff = rs1.getInt("diff");
                 
@@ -96,6 +87,7 @@ public class Home_Controller {
                 rs2.next();
                 
                 double price = rs2.getInt("bid");
+                
                 String x = df.format(diff/price);
                 System.out.println(diff + " " + price);
                 
@@ -105,10 +97,6 @@ public class Home_Controller {
                 r++;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Home_Controller.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Home_Controller.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
             Logger.getLogger(Home_Controller.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
