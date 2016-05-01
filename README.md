@@ -1,14 +1,20 @@
 # InGoldWeTrust
 
-~11:30 PM
+~ 3:00 PM
 
-EDIT: I made it so the rs2xml jar is not needed anymore, and all items are up to date based of the wowhead website.
+Fixed the looking of item names in the controllers using JSoup. Added the rs2xml jar again due to needing it to fill the table. Added image icon. Next: Adding item information on the Search.
+
+----------------------------------------------------------
+
+~11:30 AM
+
+I made it so the rs2xml jar is not needed anymore, and all items are up to date based of the wowhead website.
 
 -----------------------------------------------------------
 
 ~11:00 AM
 
-EDIT: Updated project to include previous changes + the jar file listed below.
+Updated project to include previous changes + the jar file listed below.
 
 ------------------------------------------------------------
 
