@@ -6,8 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public final class MusketeersGUI extends JFrame {
 
@@ -39,6 +37,20 @@ public final class MusketeersGUI extends JFrame {
         predictPanel.setVisible(false);
         testingPanel.setVisible(false);
         helpPanel.setVisible(false);
+        
+        toprise.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Home_Controller(conn, 1, topTable);
+            }
+        });
+        
+        topfall.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Home_Controller(conn, 2, topTable);
+            }
+        });
     }
     
     @SuppressWarnings("unchecked")
@@ -56,10 +68,10 @@ public final class MusketeersGUI extends JFrame {
         homePanel = new javax.swing.JPanel();
         toprise = new javax.swing.JButton();
         topfall = new javax.swing.JButton();
-        mostsell = new javax.swing.JButton();
-        leastsell = new javax.swing.JButton();
         serverButton = new javax.swing.JButton();
         itemLabel = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        topTable = new javax.swing.JTable();
         searchPanel = new javax.swing.JPanel();
         searchField = new javax.swing.JTextField();
         lookButton = new javax.swing.JButton();
@@ -137,10 +149,6 @@ public final class MusketeersGUI extends JFrame {
         helpPanel.setLayout(helpPanelLayout);
         helpPanelLayout.setHorizontalGroup(
             helpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(helpPanelLayout.createSequentialGroup()
-                .addGap(154, 154, 154)
-                .addComponent(helpText)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, helpPanelLayout.createSequentialGroup()
                 .addGap(43, 43, 43)
                 .addGroup(helpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -154,6 +162,10 @@ public final class MusketeersGUI extends JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                         .addComponent(testingButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(55, 55, 55))
+            .addGroup(helpPanelLayout.createSequentialGroup()
+                .addGap(154, 154, 154)
+                .addComponent(helpText)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         helpPanelLayout.setVerticalGroup(
             helpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -191,16 +203,6 @@ public final class MusketeersGUI extends JFrame {
         topfall.setForeground(new java.awt.Color(255, 255, 255));
         topfall.setText("Falling");
 
-        mostsell.setBackground(new java.awt.Color(0, 102, 51));
-        mostsell.setFont(new java.awt.Font("Rockwell", 0, 18)); // NOI18N
-        mostsell.setForeground(new java.awt.Color(255, 255, 255));
-        mostsell.setText("Most Sold");
-
-        leastsell.setBackground(new java.awt.Color(102, 0, 0));
-        leastsell.setFont(new java.awt.Font("Rockwell", 0, 18)); // NOI18N
-        leastsell.setForeground(new java.awt.Color(255, 255, 255));
-        leastsell.setText("Least Sold");
-
         serverButton.setBackground(new java.awt.Color(51, 51, 51));
         serverButton.setForeground(new java.awt.Color(255, 255, 255));
         serverButton.setText("New Server");
@@ -213,20 +215,42 @@ public final class MusketeersGUI extends JFrame {
         itemLabel.setFont(new java.awt.Font("Rockwell Extra Bold", 1, 24)); // NOI18N
         itemLabel.setText("Top 10 Items");
 
+        topTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Item", "Price Difference", "Percentage"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(topTable);
+        if (topTable.getColumnModel().getColumnCount() > 0) {
+            topTable.getColumnModel().getColumn(0).setResizable(false);
+            topTable.getColumnModel().getColumn(1).setResizable(false);
+            topTable.getColumnModel().getColumn(2).setResizable(false);
+        }
+
         javax.swing.GroupLayout homePanelLayout = new javax.swing.GroupLayout(homePanel);
         homePanel.setLayout(homePanelLayout);
         homePanelLayout.setHorizontalGroup(
             homePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(homePanelLayout.createSequentialGroup()
-                .addGap(84, 84, 84)
-                .addGroup(homePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(mostsell, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(toprise, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40)
-                .addGroup(homePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(topfall, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(leastsell, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 101, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, homePanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(homePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -236,21 +260,30 @@ public final class MusketeersGUI extends JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, homePanelLayout.createSequentialGroup()
                         .addComponent(itemLabel)
                         .addGap(206, 206, 206))))
+            .addGroup(homePanelLayout.createSequentialGroup()
+                .addGroup(homePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(homePanelLayout.createSequentialGroup()
+                        .addGap(85, 85, 85)
+                        .addComponent(toprise, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)
+                        .addComponent(topfall, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(homePanelLayout.createSequentialGroup()
+                        .addGap(70, 70, 70)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 89, Short.MAX_VALUE))
         );
         homePanelLayout.setVerticalGroup(
             homePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(homePanelLayout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(itemLabel)
-                .addGap(26, 26, 26)
+                .addGap(18, 18, 18)
                 .addGroup(homePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(toprise, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(topfall, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(39, 39, 39)
-                .addGroup(homePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(mostsell, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(leastsell, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                    .addComponent(toprise)
+                    .addComponent(topfall))
+                .addGap(27, 27, 27)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                 .addComponent(serverButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26))
         );
@@ -431,6 +464,20 @@ public final class MusketeersGUI extends JFrame {
         searchButton.setForeground(new Color(204, 204, 204));
         predictiveButton.setForeground(new Color(204, 204, 204));
         testingButton.setForeground(new Color(204, 204, 204));
+        
+        toprise.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Home_Controller(conn, 1, topTable);
+            }
+        });
+        
+        topfall.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Home_Controller(conn, 2, topTable);
+            }
+        });
     }//GEN-LAST:event_homeButtonActionPerformed
 
     private void topriseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_topriseActionPerformed
@@ -574,8 +621,6 @@ public final class MusketeersGUI extends JFrame {
     public final void noBorder(){
         toprise.setFocusPainted(false);
         topfall.setFocusPainted(false);
-        mostsell.setFocusPainted(false);
-        leastsell.setFocusPainted(false);
         homeButton.setFocusPainted(false);
         searchButton.setFocusPainted(false);
         predictiveButton.setFocusPainted(false);
@@ -636,9 +681,8 @@ public final class MusketeersGUI extends JFrame {
     private javax.swing.JTable itemTable;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JButton leastsell;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JButton lookButton;
-    private javax.swing.JButton mostsell;
     private javax.swing.JPanel predictPanel;
     private javax.swing.JButton predictiveButton;
     private javax.swing.JButton predictiveButton2;
@@ -650,6 +694,7 @@ public final class MusketeersGUI extends JFrame {
     private javax.swing.JButton testingButton;
     private javax.swing.JButton testingButton2;
     private javax.swing.JPanel testingPanel;
+    private javax.swing.JTable topTable;
     private javax.swing.JButton topfall;
     private javax.swing.JButton toprise;
     // End of variables declaration//GEN-END:variables

@@ -66,18 +66,15 @@ public class Search_Controller {
     public void fillTable(Connection conn, String id, JTable table) throws SQLException
     {
         DatabaseMetaData dbm = conn.getMetaData();
-        // check if "employee" table is there
         ResultSet tables = dbm.getTables(null, null, "item" + id, null);
         if (tables.next()) {
             st = conn.createStatement();
             rs = st.executeQuery("select * from item" + id);
             table.setModel(DbUtils.resultSetToTableModel(rs));  
         }
-        else { //Stormcloth Pants
+        else { 
             JOptionPane.showMessageDialog(null,"Item is not Auctionable in World of Warcraft.");
         }
-        
-        
     }
 }
 
