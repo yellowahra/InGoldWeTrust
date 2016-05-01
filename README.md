@@ -1,5 +1,9 @@
 # InGoldWeTrust
 
+EDIT: Updated project to include previous changes + the jar file listed below.
+
+------------------------------------------------------------
+
 Make sure to add this jar file to the library while working on the program:
 
 https://drive.google.com/file/d/0B2UtOX3Bt5WDUVBHRjRQbVVxUUk/view
