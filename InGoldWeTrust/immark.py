@@ -12,18 +12,27 @@ image1 = Image.open("info.png")
 pic = image1.load()
 size = image1.size
 
-x = 93 #91 pixel = <25
-y = 406 #404 pixel = <25    
+x = 93 #91 pixel = <25  
     
-while (pic[x,403] > (25,25,25)):
+r = 300
+    
+while (pic[91,r] > (18,18,18)):
+    r = r + 1    
+
+y = r
+
+print x
+print y
+    
+while (pic[x,y] > (18,18,18)):
     x = x + 1
         
-while (pic[90,y] > (25,25,25)):
+while (pic[90,y+5] > (18,18,18)):
     y = y + 1
 
 print x
 print y
 
-crop = image1.crop((91, 404, x, y))
+crop = image1.crop((91, r+1, x, y+5))
 
 crop.save("crop.png")
