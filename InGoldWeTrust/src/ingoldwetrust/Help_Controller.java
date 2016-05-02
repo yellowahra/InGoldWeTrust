@@ -19,16 +19,17 @@ public class Help_Controller {
             panel.setText("The Home button gives you four options to view ten items under the most\npopular settings." 
                 + "\n\nRising: View which items are currently rising in price."
                 + "\nFalling: View which items are currently falling in price."
-                + "\nMost Sold: View which items are being sold the most."
-                + "\nLeast Sold: View which items are being sold the least." );
+                + "\n\nIf there are less than 10 items that are rising or falling in price,\nonly the"
+                + "items affected will appear in the table.");
         }
         else if (choice == 2)
         {
             panel.setText("The Search button lets the user look up items in out database. If the item does"
                 + "\nnot show up, then that means the item either doesn't exist or hasn't been sold"
-                + "\nin the auction house for that server within 24 hours. You can choose to look"
-                + "\nup the item through the combo box or through the search bar. The information"
-                + "\nfor the item will show up in the table." );
+                + "\nin the auction house for that server within the 2 weeks. You can choose to"
+                + "\nlook up the item through the search bar. The prices for the item will show"
+                + "\nup in the table. Additional item information is included via the WoWHead"
+                + "\nwebsite.");
         }
         else if (choice == 3)
         {
