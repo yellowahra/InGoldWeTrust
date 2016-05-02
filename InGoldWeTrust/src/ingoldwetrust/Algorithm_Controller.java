@@ -19,16 +19,23 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import net.proteanit.sql.DbUtils;
-
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import java.sql.PreparedStatement;
 /**
  *
- * @author Racco
+ * @author Michael
  */
 public class Algorithm_Controller {
-    Statement st = null;
+    Connection db;
+	PreparedStatement ps = null;
+	Statement st = null;
     ResultSet rs = null;
     double Alpha_A = 6.0;
     double Alpha_B = 2.0;
+    int[] pricelist = new int[5];
     
     public Algorithm_Controller(Connection conn, String item, JTable table)
     {
@@ -78,9 +85,31 @@ public class Algorithm_Controller {
             JOptionPane.showMessageDialog(null,"Item is not Auctionable in World of Warcraft.");
         }
     }
-    public double ApplyA(int i,String item, double alpha) throws FileNotFoundException, IOException
+    public double Apply(int i,String item, double alpha) throws FileNotFoundException, IOException
     {
-    	return Estimate(i, item, alpha);
+        try {
+            ps = db.prepareStatement("SELECT itemid FROM item" + item + " ORDER BY time ASC LIMIT " + i);
+            rs = ps.executeQuery();
+            
+            Document doc = Jsoup.connect("http://www.wowhead.com/item=" + item).get();
+            for (Element m : doc.getElementsByTag("meta")) {
+                if ("og:title".equals(m.attr("property")))
+                    item = m.attr("content");
+            }
+            
+            int index = 3;
+            while(rs.next()) {        
+                pricelist[index] = rs.getInt("buy");
+                index--;
+            }
+        }
+        catch (SQLException ex) {
+            Logger.getLogger(Home_Controller.class.getName()).log(Level.SEVERE, null, ex);
+            return 0.0;
+        }
+
+    	return Estimate(5, item, alpha);
+
     }
     public double Estimate(int i, String item, double alpha)
     {
@@ -88,13 +117,9 @@ public class Algorithm_Controller {
     	//we are attempting to predict, in which the algorithm will recursively go down the price history starting
     	//with the most recent till zero
     	if(i != 0){
-    	return alpha * burst[ i -1 ] + ( 1.0 - alpha ) * Estimate( i -1, item, alpha );
+    	return (double)(alpha * pricelist[i-1] + ( 1.0 - alpha ) * Estimate( i -1, item, alpha ));
     	}
-    	if (i == 0)
-    	{
-    		return 0;
-    	}
-    	
+    		return 0.0;
     }
 }
 
